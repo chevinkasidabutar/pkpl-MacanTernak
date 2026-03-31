@@ -2,6 +2,8 @@ from django.conf import settings
 from django.contrib.auth import logout
 from django.shortcuts import redirect, render
 
+from .models import Profile
+
 
 ALLOWED_MEMBER_EMAILS = [
     "chevinkasidabutar@gmail.com",
@@ -13,11 +15,21 @@ def home(request):
     email = getattr(user, "email", None)
     is_member = bool(email and email.lower() in [e.lower() for e in ALLOWED_MEMBER_EMAILS])
 
+    profile = None
+    if user:
+        profile, _ = Profile.objects.get_or_create(user=user)
+        if request.method == "POST":
+            profile.display_name = (request.POST.get("display_name") or "").strip()[:80]
+            profile.status = (request.POST.get("status") or "").strip()[:140]
+            profile.save()
+            return redirect("home")
+
     context = {
         "user": user,
         "is_member": is_member,
         "allowed_emails": ALLOWED_MEMBER_EMAILS,
         "google_client_id_set": settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY != "GANTI_DENGAN_CLIENT_ID_GOOGLE",
+        "profile": profile,
     }
     return render(request, "biodata/home.html", context)
 
