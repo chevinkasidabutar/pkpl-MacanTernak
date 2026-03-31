@@ -1,0 +1,15 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+.DS_Store
+
+# Env / secrets
+.env
+.env.*
+
+# Django collected static (if ever used)
+staticfiles/
+

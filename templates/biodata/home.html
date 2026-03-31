@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biodata Kelompok - PKPL</title>
+  <link rel="stylesheet" href="{% static 'biodata/style.css' %}">
+</head>
+<body>
+  <header>
+    <h1>Biodata Kelompok PKPL</h1>
+    <div id="auth-controls">
+      {% if user.is_authenticated %}
+        <div class="user-info">
+          {{ user.email|default:user.username }}
+          {% if is_member %}
+            <span class="badge">Anggota (boleh edit)</span>
+          {% else %}
+            <span class="badge">Bukan anggota (hanya lihat)</span>
+          {% endif %}
+        </div>
+        <a href="{% url 'logout' %}">
+          <button>Logout</button>
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}">
+          <button class="primary">Login dengan Google</button>
+        </a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main>
+    <section id="biodata">
+      <h2>Anggota Kelompok</h2>
+      <ul id="anggota-list">
+        <li>Nama 1 - NPM</li>
+        <li>Nama 2 - NPM</li>
+        <li>Nama 3 - NPM</li>
+      </ul>
+    </section>
+
+    <section id="customization-section" {% if not is_member %}hidden{% endif %}>
+      <h2>Pengaturan Tampilan (Hanya Anggota)</h2>
+      <div class="control-group">
+        <label for="bg-color-picker">Warna latar:</label>
+        <input type="color" id="bg-color-picker" />
+      </div>
+      <div class="control-group">
+        <label for="font-select">Pilih font:</label>
+        <select id="font-select">
+          <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">Sans Serif</option>
+          <option value="'Times New Roman', Times, serif">Serif</option>
+          <option value="'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace">Monospace</option>
+        </select>
+      </div>
+      <p class="helper-text">
+        Hanya akun Google anggota kelompok yang boleh mengubah pengaturan ini. Akun lain hanya dapat melihat tampilan.
+      </p>
+    </section>
+
+    {% if not google_client_id_set %}
+      <section>
+        <p class="helper-text">
+          Catatan: Google OAuth belum dikonfigurasi (client ID/secret belum diisi di settings).
+        </p>
+      </section>
+    {% endif %}
+  </main>
+
+  <footer>
+    <small>Fokus: Authentication &amp; Authorization (Tugas PKPL)</small>
+  </footer>
+
+  <script src="{% static 'biodata/app.js' %}"></script>
+</body>
+</html>
+
