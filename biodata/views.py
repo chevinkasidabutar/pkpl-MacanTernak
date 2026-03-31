@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import logout
 from django.shortcuts import redirect, render
 
-from .models import Profile
+from .models import Profile, StatusPost
 
 
 ALLOWED_MEMBER_EMAILS = [
@@ -19,10 +19,19 @@ def home(request):
     if user:
         profile, _ = Profile.objects.get_or_create(user=user)
         if request.method == "POST":
-            profile.display_name = (request.POST.get("display_name") or "").strip()[:80]
-            profile.status = (request.POST.get("status") or "").strip()[:140]
-            profile.save()
-            return redirect("home")
+            action = (request.POST.get("action") or "").strip()
+            if action == "update_profile":
+                profile.display_name = (request.POST.get("display_name") or "").strip()[:80]
+                profile.save()
+                return redirect("home")
+
+            if action == "post_status":
+                content = (request.POST.get("content") or "").strip()
+                if content:
+                    StatusPost.objects.create(user=user, content=content[:200])
+                return redirect("home")
+
+    posts = StatusPost.objects.select_related("user").all()[:24]
 
     context = {
         "user": user,
@@ -30,6 +39,7 @@ def home(request):
         "allowed_emails": ALLOWED_MEMBER_EMAILS,
         "google_client_id_set": settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY != "GANTI_DENGAN_CLIENT_ID_GOOGLE",
         "profile": profile,
+        "posts": posts,
     }
     return render(request, "biodata/home.html", context)
 

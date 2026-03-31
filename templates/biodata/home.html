@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kelompok Macan Ternak — Auth &amp; Authz</title>
+  <title>Introduce My Team — Macan Ternak</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,27 +56,27 @@
 
   <section class="hero" id="home">
     <div class="container">
-      <div class="hero-bg-text">MACAN</div>
+      <div class="hero-bg-text">TEAM</div>
       <div class="hero-inner">
         <div class="hero-eyebrow">
           <div class="hero-eyebrow-line"></div>
-          <span class="hero-eyebrow-text">🐾 Authentication &amp; Authorization · PKPL</span>
+          <span class="hero-eyebrow-text">🐾 Introduce My Team · Kelompok Macan Ternak</span>
         </div>
         <h1>
-          <span class="line-white">AUTH</span>
-          <span class="line-pink">&amp; AUTHZ</span>
-          <span class="line-outline">SYSTEM</span>
+          <span class="line-white">INTRODUCE</span>
+          <span class="line-pink">MY TEAM</span>
+          <span class="line-outline">MACANTERNAK</span>
         </h1>
         <p class="hero-sub">
-          Website biodata Kelompok Macan Ternak dengan login Google (OAuth 2.0) dan pembatasan hak akses.
+          Website biodata Kelompok Macan Ternak. Bisa dilihat tanpa login. Login Google dipakai untuk mengaktifkan fitur tambahan.
           {% if not user.is_authenticated %}
-            Kamu bisa lihat homepage tanpa login. Untuk edit profil/status, silakan login.
+            Kamu bisa lihat homepage tanpa login. Untuk posting status, silakan login.
           {% endif %}
         </p>
         <div class="hero-pills">
-          <div class="pill"><span class="pip"></span>OAuth 2.0</div>
-          <div class="pill"><span class="pip"></span>Django Sessions</div>
-          <div class="pill"><span class="pip"></span>Authorization by Email</div>
+          <div class="pill"><span class="pip"></span>Google OAuth</div>
+          <div class="pill"><span class="pip"></span>Status Wall</div>
+          <div class="pill"><span class="pip"></span>Member-Only Theme</div>
         </div>
       </div>
     </div>
@@ -157,11 +157,65 @@
 
   <hr class="divider" />
 
+  <section id="status-wall">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">💬 Update</div>
+        <div class="section-title">STATUS WALL</div>
+      </div>
+
+      {% if user.is_authenticated %}
+        <div class="status-compose">
+          <form method="post" class="status-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="post_status" />
+            <input name="content" maxlength="200" placeholder="Tulis status kamu... (maks 200 karakter)" class="status-input" />
+            <button class="btn-login" type="submit">Post</button>
+          </form>
+          <form method="post" class="profile-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_profile" />
+            <input name="display_name" maxlength="80"
+                   value="{% if profile %}{{ profile.display_name }}{% endif %}"
+                   placeholder="Nama tampilan (opsional)" class="status-input" />
+            <button class="btn-logout" type="submit">Save name</button>
+          </form>
+        </div>
+      {% else %}
+        <div class="status-hint">
+          Kamu bisa lihat status orang lain. Untuk posting status, <a href="{% url 'login' %}">login dengan Google</a>.
+        </div>
+      {% endif %}
+
+      <div class="status-canvas" aria-label="Status posts">
+        {% for p in posts %}
+          <article class="status-card" style="--i:{{ forloop.counter0 }};">
+            <div class="status-meta">
+              <span class="status-author">
+                {% if p.user.profile and p.user.profile.display_name %}
+                  {{ p.user.profile.display_name }}
+                {% else %}
+                  {{ p.user.email|default:p.user.username }}
+                {% endif %}
+              </span>
+              <span class="status-time">{{ p.created_at|date:"d M Y H:i" }}</span>
+            </div>
+            <div class="status-text">{{ p.content }}</div>
+          </article>
+        {% empty %}
+          <div class="status-empty">Belum ada status. Jadi yang pertama posting setelah login.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
   <section id="account">
     <div class="container">
       <div class="section-header">
         <div class="section-label">🔐 Akun</div>
-        <div class="section-title">STATUS &amp; PROFILE</div>
+        <div class="section-title">AKSES FITUR</div>
       </div>
 
       {% if user.is_authenticated %}
@@ -169,26 +223,8 @@
           <div class="auth-box">
             <div class="auth-box-title">Kamu sudah login</div>
             <div class="auth-box-desc">
-              Update nama tampilan dan status kamu. Ini hanya bisa dilakukan setelah login.
+              Kamu bisa posting ke Status Wall, dan nama tampilanmu akan dipakai di card status.
             </div>
-            <form method="post" style="display:grid;gap:10px;">
-              {% csrf_token %}
-              <div style="display:grid;gap:6px;">
-                <label style="font-family:var(--font-cond);letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:var(--pink);">Nama tampilan</label>
-                <input name="display_name" maxlength="80" value="{% if profile %}{{ profile.display_name }}{% endif %}"
-                       style="padding:10px;border:1px solid var(--border);background:var(--black2);color:var(--white);" />
-              </div>
-              <div style="display:grid;gap:6px;">
-                <label style="font-family:var(--font-cond);letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:var(--pink);">Status</label>
-                <input name="status" maxlength="140" value="{% if profile %}{{ profile.status }}{% endif %}"
-                       placeholder="Contoh: lagi ngerjain tugas auth"
-                       style="padding:10px;border:1px solid var(--border);background:var(--black2);color:var(--white);" />
-              </div>
-              <button class="btn-login" type="submit">Simpan</button>
-              {% if profile and profile.status %}
-                <div style="color:var(--muted);font-size:13px;">Status saat ini: <strong style="color:var(--white);">{{ profile.status }}</strong></div>
-              {% endif %}
-            </form>
           </div>
 
           <div class="auth-box" style="border-left: 1px solid var(--border);">
@@ -204,7 +240,7 @@
             <div id="customization-section" {% if not is_member %}hidden{% endif %}>
               <div class="auth-feature">
                 <div class="auth-feature-icon">✓</div>
-                <div class="auth-feature-text"><strong>Theme</strong> — ubah warna background &amp; font</div>
+                <div class="auth-feature-text"><strong>Theme</strong> — ubah warna background &amp; font (khusus anggota)</div>
               </div>
               <div style="display:grid;gap:10px;margin-top:16px;">
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -228,7 +264,7 @@
           <div class="auth-box">
             <div class="auth-box-title">Belum login</div>
             <div class="auth-box-desc">
-              Kamu hanya bisa melihat homepage. Untuk edit profil/status dan melihat hak aksesmu, silakan login dengan Google.
+              Kamu hanya bisa melihat homepage dan Status Wall. Untuk posting status dan melihat hak aksesmu, silakan login.
             </div>
             <a href="{% url 'login' %}">
               <button class="btn-login" type="button">Login dengan Google</button>

@@ -542,6 +542,115 @@ section {
   font-weight: 600;
 }
 
+/* ── STATUS WALL ── */
+.status-compose {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.status-form,
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.status-input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--black2);
+  color: var(--white);
+  outline: none;
+  width: 100%;
+}
+
+.status-input::placeholder {
+  color: rgba(155, 100, 120, 0.9);
+}
+
+.status-hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.status-hint a {
+  color: var(--pink);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--hot);
+}
+
+.status-canvas {
+  position: relative;
+  min-height: 380px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(36, 13, 22, 0.6), rgba(26, 10, 16, 0.6));
+  overflow: hidden;
+  padding: 22px;
+}
+
+.status-empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 18px;
+}
+
+@keyframes floaty {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.status-card {
+  position: absolute;
+  width: min(320px, 82vw);
+  background: rgba(26, 10, 16, 0.92);
+  border: 1px solid var(--border);
+  padding: 14px 14px 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  animation: floaty 4.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.12s);
+}
+
+.status-card:nth-child(6n + 1) { top: 26px; left: 24px; }
+.status-card:nth-child(6n + 2) { top: 64px; left: 56%; }
+.status-card:nth-child(6n + 3) { top: 170px; left: 14%; }
+.status-card:nth-child(6n + 4) { top: 210px; left: 58%; }
+.status-card:nth-child(6n + 5) { top: 300px; left: 34%; }
+.status-card:nth-child(6n + 6) { top: 120px; left: 34%; }
+
+.status-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-family: var(--font-cond);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.status-author {
+  color: var(--pink);
+  font-weight: 700;
+}
+
+.status-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--white);
+}
+
 footer {
   border-top: 1px solid var(--border);
   padding: 28px 0;
