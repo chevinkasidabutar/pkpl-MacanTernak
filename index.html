@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biodata Kelompok - PKPL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Biodata Kelompok PKPL</h1>
+    <div id="auth-controls">
+      <!-- Tombol login/logout akan dirender via JS -->
+    </div>
+  </header>
+
+  <main>
+    <section id="biodata">
+      <h2>Anggota Kelompok</h2>
+      <ul id="anggota-list">
+        <li>Nama 1 - NPM</li>
+        <li>Nama 2 - NPM</li>
+        <li>Nama 3 - NPM</li>
+        <!-- Tambahkan sesuai kebutuhan -->
+      </ul>
+    </section>
+
+    <section id="customization-section" hidden>
+      <h2>Pengaturan Tampilan (Hanya Anggota)</h2>
+      <div class="control-group">
+        <label for="bg-color-picker">Warna latar:</label>
+        <input type="color" id="bg-color-picker" />
+      </div>
+      <div class="control-group">
+        <label for="font-select">Pilih font:</label>
+        <select id="font-select">
+          <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">Sans Serif</option>
+          <option value="'Times New Roman', Times, serif">Serif</option>
+          <option value="'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace">Monospace</option>
+        </select>
+      </div>
+      <p class="helper-text">
+        Hanya akun Google anggota kelompok yang boleh mengubah pengaturan ini. Akun lain hanya dapat melihat tampilan.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <small>Fokus: Authentication &amp; Authorization (Tugas PKPL)</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
