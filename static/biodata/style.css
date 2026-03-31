@@ -358,17 +358,21 @@ section {
 .members-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  gap: 14px;
+  background: transparent;
+  border: none;
 }
 
 .member-card {
-  background: var(--black);
-  padding: 28px;
-  transition: background 0.25s;
+  background: rgba(36, 13, 22, 0.78);
+  border: 1px solid rgba(61, 21, 37, 0.95);
+  border-radius: 16px;
+  padding: 22px 22px 20px;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.25s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
 }
 
 .member-card::before {
@@ -376,8 +380,8 @@ section {
   position: absolute;
   top: 14px;
   right: 18px;
-  font-size: 36px;
-  opacity: 0.08;
+  font-size: 28px;
+  opacity: 0.05;
   pointer-events: none;
   user-select: none;
   transition: opacity 0.3s, transform 0.3s;
@@ -389,7 +393,7 @@ section {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--hot), var(--pink));
   transform: scaleX(0);
   transform-origin: left;
@@ -397,11 +401,12 @@ section {
 }
 
 .member-card:hover {
-  background: var(--black2);
+  transform: translateY(-2px);
+  background: rgba(36, 13, 22, 0.92);
 }
 
 .member-card:hover::before {
-  opacity: 0.18;
+  opacity: 0.14;
   transform: scale(1.15) rotate(10deg);
 }
 
@@ -410,34 +415,45 @@ section {
 }
 
 .member-avatar {
-  width: 52px;
-  height: 52px;
-  background: var(--hot);
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--hot), var(--pink2));
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 24px;
   color: var(--white);
-  margin-bottom: 18px;
-  clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%);
-  box-shadow: 0 0 20px rgba(225, 29, 116, 0.35);
+  margin-bottom: 14px;
+  box-shadow: 0 0 0 1px rgba(251, 126, 216, 0.2), 0 14px 35px rgba(225, 29, 116, 0.22);
 }
 
 .member-name {
   font-family: var(--font-display);
-  font-size: 28px;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
+  font-size: 24px;
+  letter-spacing: 0.04em;
+  line-height: 1.12;
+  margin-bottom: 10px;
   color: var(--white);
 }
 
 .member-nim {
   font-family: var(--font-cond);
-  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
   letter-spacing: 0.06em;
-  color: var(--muted);
-  margin-bottom: 6px;
+  color: rgba(155, 100, 120, 0.95);
+  margin-bottom: 0;
+}
+
+.member-nim .label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--pink);
+  font-weight: 700;
 }
 
 .info-grid {
@@ -586,10 +602,12 @@ section {
 .status-canvas {
   position: relative;
   min-height: 380px;
-  border: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(36, 13, 22, 0.6), rgba(26, 10, 16, 0.6));
+  border-radius: 18px;
+  border: 1px solid rgba(61, 21, 37, 0.95);
+  background: rgba(26, 10, 16, 0.55);
   overflow: hidden;
   padding: 22px;
+  backdrop-filter: blur(10px);
 }
 
 .status-empty {
@@ -613,10 +631,12 @@ section {
 .status-card {
   position: absolute;
   width: min(320px, 82vw);
-  background: rgba(26, 10, 16, 0.92);
-  border: 1px solid var(--border);
-  padding: 14px 14px 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  background: rgba(36, 13, 22, 0.82);
+  border: 1px solid rgba(225, 29, 116, 0.35);
+  border-radius: 16px;
+  padding: 14px 16px 12px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
   animation: floaty 4.5s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.12s);
 }
@@ -649,6 +669,7 @@ section {
   font-size: 13px;
   line-height: 1.55;
   color: var(--white);
+  word-break: break-word;
 }
 
 footer {

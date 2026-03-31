@@ -87,21 +87,21 @@
   <section id="info">
     <div class="container">
       <div class="section-header">
-        <div class="section-label">🐆 Detail Proyek</div>
-        <div class="section-title">INFORMASI</div>
+        <div class="section-label">🐆 Introduce My Team</div>
+        <div class="section-title">DASHBOARD</div>
       </div>
       <div class="info-grid">
         <div class="info-item">
           <div class="info-label">Topik</div>
-          <div class="info-value">Authentication &amp; Authorization</div>
+          <div class="info-value">Status Wall + Akses Anggota</div>
         </div>
         <div class="info-item">
           <div class="info-label">Login</div>
-          <div class="info-value">Google OAuth 2.0</div>
+          <div class="info-value">Google OAuth</div>
         </div>
         <div class="info-item">
-          <div class="info-label">Aturan Akses</div>
-          <div class="info-value">Anggota boleh ubah tampilan</div>
+          <div class="info-label">Akses</div>
+          <div class="info-value">Anggota bisa posting &amp; ubah theme</div>
         </div>
         <div class="info-item">
           <div class="info-label">Public Page</div>
@@ -129,27 +129,27 @@
         <div class="member-card">
           <div class="member-avatar">F</div>
           <div class="member-name">Freya Zahra Anindyabhakti</div>
-          <div class="member-nim">NPM · 2406349285</div>
+          <div class="member-nim"><span class="label">NPM</span> · 2406349285</div>
         </div>
         <div class="member-card">
           <div class="member-avatar">D</div>
           <div class="member-name">Deslee Jever Phillipa</div>
-          <div class="member-nim">NPM · 2406433560</div>
+          <div class="member-nim"><span class="label">NPM</span> · 2406433560</div>
         </div>
         <div class="member-card">
           <div class="member-avatar">C</div>
           <div class="member-name">Chevinka Queen Cilia Sidabutar</div>
-          <div class="member-nim">NPM · 2406437376</div>
+          <div class="member-nim"><span class="label">NPM</span> · 2406437376</div>
         </div>
         <div class="member-card">
           <div class="member-avatar">J</div>
           <div class="member-name">Jenisa Bunga</div>
-          <div class="member-nim">NPM · 2406431334</div>
+          <div class="member-nim"><span class="label">NPM</span> · 2406431334</div>
         </div>
         <div class="member-card">
           <div class="member-avatar">S</div>
           <div class="member-name">Sausan Farah Azzahra</div>
-          <div class="member-nim">NPM · 2406439091</div>
+          <div class="member-nim"><span class="label">NPM</span> · 2406439091</div>
         </div>
       </div>
     </div>
@@ -160,7 +160,7 @@
   <section id="status-wall">
     <div class="container">
       <div class="section-header">
-        <div class="section-label">💬 Update</div>
+        <div class="section-label">🃏 Status</div>
         <div class="section-title">STATUS WALL</div>
       </div>
 
@@ -169,8 +169,8 @@
           <form method="post" class="status-form">
             {% csrf_token %}
             <input type="hidden" name="action" value="post_status" />
-            <input name="content" maxlength="200" placeholder="Tulis status kamu... (maks 200 karakter)" class="status-input" />
-            <button class="btn-login" type="submit">Post</button>
+            <input name="content" maxlength="200" placeholder="Tulis status... (maks 200 karakter)" class="status-input" />
+            <button class="btn-login" type="submit">Posting</button>
           </form>
           <form method="post" class="profile-form">
             {% csrf_token %}
@@ -178,12 +178,12 @@
             <input name="display_name" maxlength="80"
                    value="{% if profile %}{{ profile.display_name }}{% endif %}"
                    placeholder="Nama tampilan (opsional)" class="status-input" />
-            <button class="btn-logout" type="submit">Save name</button>
+            <button class="btn-logout" type="submit">Simpan</button>
           </form>
         </div>
       {% else %}
         <div class="status-hint">
-          Kamu bisa lihat status orang lain. Untuk posting status, <a href="{% url 'login' %}">login dengan Google</a>.
+          Status bisa dilihat tanpa login. Untuk posting, <a href="{% url 'login' %}">login dengan Google</a>.
         </div>
       {% endif %}
 
@@ -203,7 +203,7 @@
             <div class="status-text">{{ p.content }}</div>
           </article>
         {% empty %}
-          <div class="status-empty">Belum ada status. Jadi yang pertama posting setelah login.</div>
+          <div class="status-empty">Belum ada status. Post pertama kalian dulu!</div>
         {% endfor %}
       </div>
     </div>
@@ -214,8 +214,8 @@
   <section id="account">
     <div class="container">
       <div class="section-header">
-        <div class="section-label">🔐 Akun</div>
-        <div class="section-title">AKSES FITUR</div>
+        <div class="section-label">🎛️ Member</div>
+        <div class="section-title">PANEL</div>
       </div>
 
       {% if user.is_authenticated %}
@@ -223,24 +223,24 @@
           <div class="auth-box">
             <div class="auth-box-title">Kamu sudah login</div>
             <div class="auth-box-desc">
-              Kamu bisa posting ke Status Wall, dan nama tampilanmu akan dipakai di card status.
+              Kamu bisa posting status. Nama tampilan akan ikut tampil di card.
             </div>
           </div>
 
           <div class="auth-box" style="border-left: 1px solid var(--border);">
-            <div class="auth-box-title">Hak akses</div>
+            <div class="auth-box-title">Tema & Akses</div>
             <div class="auth-box-desc">
               {% if is_member %}
-                Kamu termasuk whitelist anggota, jadi boleh mengubah tampilan.
+                Kamu anggota: bisa ubah theme.
               {% else %}
-                Kamu bukan whitelist anggota, jadi hanya bisa melihat tampilan.
+                Kamu viewer: hanya bisa melihat.
               {% endif %}
             </div>
 
             <div id="customization-section" {% if not is_member %}hidden{% endif %}>
               <div class="auth-feature">
                 <div class="auth-feature-icon">✓</div>
-                <div class="auth-feature-text"><strong>Theme</strong> — ubah warna background &amp; font (khusus anggota)</div>
+                <div class="auth-feature-text"><strong>Theme</strong> — ubah aksen card &amp; font (khusus anggota)</div>
               </div>
               <div style="display:grid;gap:10px;margin-top:16px;">
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -291,7 +291,7 @@
         <div class="spot"></div>
         <div class="spot"></div>
       </div>
-      <div class="footer-meta">PKPL · Auth &amp; Authz</div>
+      <div class="footer-meta">PKPL · Introduce My Team</div>
     </footer>
   </div>
 

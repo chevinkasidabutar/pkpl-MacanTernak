@@ -5,7 +5,9 @@ const fontSelect = document.getElementById("font-select");
 if (customizationSection && !customizationSection.hasAttribute("hidden")) {
   if (bgColorPicker) {
     bgColorPicker.addEventListener("input", (e) => {
-      document.documentElement.style.backgroundColor = e.target.value;
+      // Update accent colors so "theme" affects card UI, not just page background.
+      document.documentElement.style.setProperty("--hot", e.target.value);
+      document.documentElement.style.setProperty("--pink2", e.target.value);
     });
   }
 
