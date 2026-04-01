@@ -1,27 +1,43 @@
-const customizationSection = document.getElementById("customization-section");
-const bgColorPicker = document.getElementById("bg-color-picker");
-const fontSelect = document.getElementById("font-select");
+const body = document.body;
+const btnLight = document.getElementById("btn-light");
+const btnDark = document.getElementById("btn-dark");
 
-if (customizationSection && !customizationSection.hasAttribute("hidden")) {
-  if (bgColorPicker) {
-    bgColorPicker.addEventListener("input", (e) => {
-      // Update accent colors so "theme" affects card UI, not just page background.
-      document.documentElement.style.setProperty("--hot", e.target.value);
-      document.documentElement.style.setProperty("--pink2", e.target.value);
-    });
-  }
-
-  if (fontSelect) {
-    fontSelect.addEventListener("change", (e) => {
-      const val = e.target.value;
-      if (val.startsWith("var(")) {
-        // Use CSS variable font family
-        const varName = val.slice(4, -1).trim();
-        const cssVal = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-        document.body.style.fontFamily = cssVal || getComputedStyle(document.body).fontFamily;
-      } else {
-        document.body.style.fontFamily = val;
-      }
-    });
-  }
+function setTheme(theme) {
+  const isDark = theme === "dark";
+  body.classList.toggle("dark-mode", isDark);
+  localStorage.setItem("theme", theme);
+  if (btnLight) btnLight.classList.toggle("active", !isDark);
+  if (btnDark) btnDark.classList.toggle("active", isDark);
 }
+
+const savedTheme = localStorage.getItem("theme") || "light";
+setTheme(savedTheme);
+
+if (btnLight) {
+  btnLight.addEventListener("click", () => setTheme("light"));
+}
+
+if (btnDark) {
+  btnDark.addEventListener("click", () => setTheme("dark"));
+}
+
+document.addEventListener("click", (event) => {
+  const editBtn = event.target.closest(".status-edit-btn");
+  if (editBtn) {
+    const card = editBtn.closest(".status-card");
+    if (!card) return;
+    const form = card.querySelector(".status-edit-form");
+    const textEl = card.querySelector(".status-text");
+    const input = form ? form.querySelector('input[name="content"]') : null;
+    if (form && textEl && input) {
+      const current = textEl.textContent.trim();
+      const updated = window.prompt("Edit status:", current);
+      if (updated === null) return;
+      const next = updated.trim();
+      if (!next) return;
+      input.value = next;
+      form.submit();
+    }
+    return;
+  }
+});

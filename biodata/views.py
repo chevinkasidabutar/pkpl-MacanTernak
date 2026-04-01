@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import logout
+from django.contrib import messages
 from django.shortcuts import redirect, render
 
 from .models import Profile, StatusPost
@@ -29,6 +30,23 @@ def home(request):
                 content = (request.POST.get("content") or "").strip()
                 if content:
                     StatusPost.objects.create(user=user, content=content[:200])
+                return redirect("home")
+
+            if action == "edit_status":
+                post_id = (request.POST.get("post_id") or "").strip()
+                content = (request.POST.get("content") or "").strip()
+                if post_id and content:
+                    updated = StatusPost.objects.filter(id=post_id, user=user).update(content=content[:200])
+                    if not updated:
+                        messages.error(request, "Status tidak ditemukan atau bukan milikmu.")
+                return redirect("home")
+
+            if action == "delete_status":
+                post_id = (request.POST.get("post_id") or "").strip()
+                if post_id:
+                    deleted, _ = StatusPost.objects.filter(id=post_id, user=user).delete()
+                    if not deleted:
+                        messages.error(request, "Status tidak ditemukan atau bukan milikmu.")
                 return redirect("home")
 
     posts = StatusPost.objects.select_related("user").all()[:24]

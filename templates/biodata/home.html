@@ -22,9 +22,13 @@
         </div>
 
         <div class="nav-right">
+          <div class="theme-toggle" aria-label="Theme switcher">
+            <button class="theme-btn" id="btn-light" type="button">LIGHT</button>
+            <button class="theme-btn" id="btn-dark" type="button">DARK</button>
+          </div>
           <div id="auth-area">
             {% if user.is_authenticated %}
-              <div id="user-info" style="display:flex;align-items:center;gap:10px;">
+              <div id="user-info">
                 <div class="user-chip">
                   <img src="https://api.dicebear.com/7.x/bottts/svg?seed=leopard&backgroundColor=e11d74" alt="avatar" />
                   <span class="user-name">
@@ -32,15 +36,13 @@
                   </span>
                   {% if is_member %}
                     <span class="user-badge">🐾 MEMBER</span>
-                  {% else %}
-                    <span class="user-badge">VIEWER</span>
                   {% endif %}
                 </div>
                 <a href="{% url 'logout' %}"><button class="btn-logout" type="button">Logout</button></a>
               </div>
             {% else %}
               <a href="{% url 'login' %}">
-                <button class="btn-login" type="button">
+                <button class="btn-login nav-login-btn" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 9a3 3 0 11-6 0 3 3 0 016 0zm-9 8a9 9 0 1118 0H6z"/>
                   </svg>
@@ -56,7 +58,6 @@
 
   <section class="hero" id="home">
     <div class="container">
-      <div class="hero-bg-text">TEAM</div>
       <div class="hero-inner">
         <div class="hero-eyebrow">
           <div class="hero-eyebrow-line"></div>
@@ -76,48 +77,13 @@
         <div class="hero-pills">
           <div class="pill"><span class="pip"></span>Google OAuth</div>
           <div class="pill"><span class="pip"></span>Status Wall</div>
-          <div class="pill"><span class="pip"></span>Member-Only Theme</div>
+          <div class="pill"><span class="pip"></span>Dark / Light Mode</div>
         </div>
       </div>
     </div>
   </section>
 
   <hr class="divider-pink" />
-
-  <section id="info">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label">🐆 Introduce My Team</div>
-        <div class="section-title">DASHBOARD</div>
-      </div>
-      <div class="info-grid">
-        <div class="info-item">
-          <div class="info-label">Topik</div>
-          <div class="info-value">Status Wall + Akses Anggota</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Login</div>
-          <div class="info-value">Google OAuth</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Akses</div>
-          <div class="info-value">Anggota bisa posting &amp; ubah theme</div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Public Page</div>
-          <div class="info-value">Biodata dapat diakses tanpa login</div>
-        </div>
-      </div>
-
-      {% if not google_client_id_set %}
-        <div style="margin-top:18px;color:var(--muted);font-size:13px;">
-          Catatan: Google OAuth belum dikonfigurasi (client ID/secret belum diisi via env var).
-        </div>
-      {% endif %}
-    </div>
-  </section>
-
-  <hr class="divider" />
 
   <section id="members">
     <div class="container">
@@ -127,29 +93,49 @@
       </div>
       <div class="members-grid">
         <div class="member-card">
-          <div class="member-avatar">F</div>
-          <div class="member-name">Freya Zahra Anindyabhakti</div>
-          <div class="member-nim"><span class="label">NPM</span> · 2406349285</div>
+          <div class="member-initial">C</div>
+          <div class="member-name">CHEVINKA QUEEN CILIA SIDABUTAR</div>
+          <div class="member-meta">NPM · 2406437376</div>
+          <div class="member-meta">Sistem Informasi 2024</div>
+          <div class="member-divider"></div>
+          <div class="member-fact">"Ga pinter makan ayam sampe keliatan tulang"</div>
+          <div class="member-order">01</div>
         </div>
         <div class="member-card">
-          <div class="member-avatar">D</div>
-          <div class="member-name">Deslee Jever Phillipa</div>
-          <div class="member-nim"><span class="label">NPM</span> · 2406433560</div>
+          <div class="member-initial">J</div>
+          <div class="member-name">JENISA BUNGA SOLAGRACIA</div>
+          <div class="member-meta">NPM · 2406431334</div>
+          <div class="member-meta">Ilmu Komputer 2024</div>
+          <div class="member-divider"></div>
+          <div class="member-fact">"Suka ngabisin ayamnya Chevinka sampe keliatan tulang"</div>
+          <div class="member-order">02</div>
         </div>
         <div class="member-card">
-          <div class="member-avatar">C</div>
-          <div class="member-name">Chevinka Queen Cilia Sidabutar</div>
-          <div class="member-nim"><span class="label">NPM</span> · 2406437376</div>
+          <div class="member-initial">D</div>
+          <div class="member-name">DESLEE JEVER PHILLIPA</div>
+          <div class="member-meta">NPM · 2406433560</div>
+          <div class="member-meta">Sistem Informasi 2024</div>
+          <div class="member-divider"></div>
+          <div class="member-fact">"Satu kos sama Sausan"</div>
+          <div class="member-order">03</div>
         </div>
         <div class="member-card">
-          <div class="member-avatar">J</div>
-          <div class="member-name">Jenisa Bunga</div>
-          <div class="member-nim"><span class="label">NPM</span> · 2406431334</div>
+          <div class="member-initial">S</div>
+          <div class="member-name">SAUSAN FARAH AZZAHRA</div>
+          <div class="member-meta">NPM · 2406439091</div>
+          <div class="member-meta">Sistem Informasi 2024</div>
+          <div class="member-divider"></div>
+          <div class="member-fact">"Satu kos sama Deslee"</div>
+          <div class="member-order">04</div>
         </div>
         <div class="member-card">
-          <div class="member-avatar">S</div>
-          <div class="member-name">Sausan Farah Azzahra</div>
-          <div class="member-nim"><span class="label">NPM</span> · 2406439091</div>
+          <div class="member-initial">F</div>
+          <div class="member-name">FREYA ZAHRA ANINDYABHAKTI</div>
+          <div class="member-meta">NPM · 2406349285</div>
+          <div class="member-meta">Sistem Informasi 2024</div>
+          <div class="member-divider"></div>
+          <div class="member-fact">"Pas waktu SMP pernah jadi putri duyung"</div>
+          <div class="member-order">05</div>
         </div>
       </div>
     </div>
@@ -172,14 +158,6 @@
             <input name="content" maxlength="200" placeholder="Tulis status... (maks 200 karakter)" class="status-input" />
             <button class="btn-login" type="submit">Posting</button>
           </form>
-          <form method="post" class="profile-form">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="update_profile" />
-            <input name="display_name" maxlength="80"
-                   value="{% if profile %}{{ profile.display_name }}{% endif %}"
-                   placeholder="Nama tampilan (opsional)" class="status-input" />
-            <button class="btn-logout" type="submit">Simpan</button>
-          </form>
         </div>
       {% else %}
         <div class="status-hint">
@@ -189,7 +167,7 @@
 
       <div class="status-canvas" aria-label="Status posts">
         {% for p in posts %}
-          <article class="status-card" style="--i:{{ forloop.counter0 }};">
+          <article class="status-card">
             <div class="status-meta">
               <span class="status-author">
                 {% if p.user.profile and p.user.profile.display_name %}
@@ -201,6 +179,23 @@
               <span class="status-time">{{ p.created_at|date:"d M Y H:i" }}</span>
             </div>
             <div class="status-text">{{ p.content }}</div>
+            {% if user.is_authenticated and p.user_id == user.id %}
+              <div class="status-actions">
+                <button class="status-edit-btn" type="button">Edit</button>
+                <form method="post" class="status-delete-form">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="delete_status" />
+                  <input type="hidden" name="post_id" value="{{ p.id }}" />
+                  <button class="status-delete-btn" type="submit">Hapus</button>
+                </form>
+              </div>
+              <form method="post" class="status-edit-form" hidden>
+                {% csrf_token %}
+                <input type="hidden" name="action" value="edit_status" />
+                <input type="hidden" name="post_id" value="{{ p.id }}" />
+                <input type="hidden" name="content" value="{{ p.content }}" />
+              </form>
+            {% endif %}
           </article>
         {% empty %}
           <div class="status-empty">Belum ada status. Post pertama kalian dulu!</div>
@@ -211,73 +206,30 @@
 
   <hr class="divider" />
 
-  <section id="account">
+  <section id="about">
     <div class="container">
       <div class="section-header">
-        <div class="section-label">🎛️ Member</div>
-        <div class="section-title">PANEL</div>
+        <div class="section-label">⚙️ Info</div>
+        <div class="section-title">TENTANG WEBSITE</div>
       </div>
-
-      {% if user.is_authenticated %}
-        <div class="auth-demo">
-          <div class="auth-box">
-            <div class="auth-box-title">Kamu sudah login</div>
-            <div class="auth-box-desc">
-              Kamu bisa posting status. Nama tampilan akan ikut tampil di card.
-            </div>
-          </div>
-
-          <div class="auth-box" style="border-left: 1px solid var(--border);">
-            <div class="auth-box-title">Tema & Akses</div>
-            <div class="auth-box-desc">
-              {% if is_member %}
-                Kamu anggota: bisa ubah theme.
-              {% else %}
-                Kamu viewer: hanya bisa melihat.
-              {% endif %}
-            </div>
-
-            <div id="customization-section" {% if not is_member %}hidden{% endif %}>
-              <div class="auth-feature">
-                <div class="auth-feature-icon">✓</div>
-                <div class="auth-feature-text"><strong>Theme</strong> — ubah aksen card &amp; font (khusus anggota)</div>
-              </div>
-              <div style="display:grid;gap:10px;margin-top:16px;">
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <label for="bg-color-picker" style="color:var(--muted);font-size:13px;">Warna latar</label>
-                  <input type="color" id="bg-color-picker" />
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <label for="font-select" style="color:var(--muted);font-size:13px;">Font</label>
-                  <select id="font-select" style="padding:8px;border:1px solid var(--border);background:var(--black2);color:var(--white);">
-                    <option value="var(--font-body)">Barlow (default)</option>
-                    <option value="var(--font-cond)">Barlow Condensed</option>
-                    <option value="var(--font-display)">Bebas Neue</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-label">Framework</div>
+          <div class="about-value">Django</div>
         </div>
-      {% else %}
-        <div class="auth-demo">
-          <div class="auth-box">
-            <div class="auth-box-title">Belum login</div>
-            <div class="auth-box-desc">
-              Kamu hanya bisa melihat homepage dan Status Wall. Untuk posting status dan melihat hak aksesmu, silakan login.
-            </div>
-            <a href="{% url 'login' %}">
-              <button class="btn-login" type="button">Login dengan Google</button>
-            </a>
-          </div>
-          <div class="auth-box" style="border-left: 1px solid var(--border);">
-            <div class="auth-box-title">Akses publik</div>
-            <div class="auth-box-desc">
-              Halaman biodata kelompok ini sengaja dibuat publik sesuai requirement tugas.
-            </div>
-          </div>
+        <div class="about-card">
+          <div class="about-label">Autentikasi</div>
+          <div class="about-value">Google OAuth</div>
         </div>
-      {% endif %}
+        <div class="about-card">
+          <div class="about-label">Database</div>
+          <div class="about-value">SQLite</div>
+        </div>
+        <div class="about-card">
+          <div class="about-label">Frontend</div>
+          <div class="about-value">HTML, CSS, JavaScript</div>
+        </div>
+      </div>
     </div>
   </section>
 
