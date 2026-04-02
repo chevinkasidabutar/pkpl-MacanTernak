@@ -8,6 +8,10 @@ from .models import Profile, StatusPost
 
 ALLOWED_MEMBER_EMAILS = [
     "chevinkasidabutar@gmail.com",
+    "bungasaragih688@gmail.com",
+    "freyazahra08@gmail.com",
+    "desver4@gmail.com",
+    "sausanfarah007@gmail.com",
 ]
 
 
@@ -22,17 +26,26 @@ def home(request):
         if request.method == "POST":
             action = (request.POST.get("action") or "").strip()
             if action == "update_profile":
+                if not is_member:
+                    messages.error(request, "Hanya anggota yang boleh mengubah profil.")
+                    return redirect("home")
                 profile.display_name = (request.POST.get("display_name") or "").strip()[:80]
                 profile.save()
                 return redirect("home")
 
             if action == "post_status":
+                if not is_member:
+                    messages.error(request, "Hanya anggota yang boleh memposting status.")
+                    return redirect("home")
                 content = (request.POST.get("content") or "").strip()
                 if content:
                     StatusPost.objects.create(user=user, content=content[:200])
                 return redirect("home")
 
             if action == "edit_status":
+                if not is_member:
+                    messages.error(request, "Hanya anggota yang boleh mengedit status.")
+                    return redirect("home")
                 post_id = (request.POST.get("post_id") or "").strip()
                 content = (request.POST.get("content") or "").strip()
                 if post_id and content:
@@ -42,6 +55,9 @@ def home(request):
                 return redirect("home")
 
             if action == "delete_status":
+                if not is_member:
+                    messages.error(request, "Hanya anggota yang boleh menghapus status.")
+                    return redirect("home")
                 post_id = (request.POST.get("post_id") or "").strip()
                 if post_id:
                     deleted, _ = StatusPost.objects.filter(id=post_id, user=user).delete()
