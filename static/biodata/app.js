@@ -5,20 +5,32 @@ const btnDark = document.getElementById("btn-dark");
 function setTheme(theme) {
   const isDark = theme === "dark";
   body.classList.toggle("dark-mode", isDark);
-  localStorage.setItem("theme", theme);
+  // Persist theme hanya untuk member yang boleh mengubah.
+  if (body.dataset.isMember === "true") {
+    localStorage.setItem("theme", theme);
+  }
   if (btnLight) btnLight.classList.toggle("active", !isDark);
   if (btnDark) btnDark.classList.toggle("active", isDark);
 }
 
-const savedTheme = localStorage.getItem("theme") || "light";
-setTheme(savedTheme);
-
-if (btnLight) {
-  btnLight.addEventListener("click", () => setTheme("light"));
+const isMember = body.dataset.isMember === "true";
+// Non-member/unauthenticated: tidak boleh ubah theme.
+// Kita juga tidak menerapkan theme tersimpan agar tampil konsisten.
+if (!isMember) {
+  body.classList.remove("dark-mode");
+} else {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  setTheme(savedTheme);
 }
 
-if (btnDark) {
-  btnDark.addEventListener("click", () => setTheme("dark"));
+if (isMember) {
+  if (btnLight) {
+    btnLight.addEventListener("click", () => setTheme("light"));
+  }
+
+  if (btnDark) {
+    btnDark.addEventListener("click", () => setTheme("dark"));
+  }
 }
 
 document.addEventListener("click", (event) => {

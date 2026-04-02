@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" href="{% static 'biodata/style.css' %}">
 </head>
-<body>
+<body data-is-auth="{{ user.is_authenticated|yesno:'true,false' }}" data-is-member="{{ is_member|yesno:'true,false' }}">
   <nav>
     <div class="container">
       <div class="nav-inner">
@@ -22,10 +22,12 @@
         </div>
 
         <div class="nav-right">
-          <div class="theme-toggle" aria-label="Theme switcher">
-            <button class="theme-btn" id="btn-light" type="button">LIGHT</button>
-            <button class="theme-btn" id="btn-dark" type="button">DARK</button>
-          </div>
+          {% if user.is_authenticated and is_member %}
+            <div class="theme-toggle" aria-label="Theme switcher">
+              <button class="theme-btn" id="btn-light" type="button">LIGHT</button>
+              <button class="theme-btn" id="btn-dark" type="button">DARK</button>
+            </div>
+          {% endif %}
           <div id="auth-area">
             {% if user.is_authenticated %}
               <div id="user-info">
